@@ -1,6 +1,6 @@
 <script setup>
 
-const personajes = [
+/* const personajes = [
   {
     id: 1,
     nombre: 'Personaje 1',
@@ -21,11 +21,16 @@ const personajes = [
 const click = (nombre) => {
   console.log(`Hola ${nombre}`)
 }
-
+ */
 </script>
 
 <template>
-  <div>
+  <ul>
+    <li><RouterLink to="/">home</RouterLink></li>
+    <li><RouterLink to="/listado">listado</RouterLink></li>
+  </ul>
+  <RouterView></RouterView>
+  <!-- <div>
     <h1>Personajes</h1>
     <ul>
       <li v-for="personaje in personajes" :key="personaje.id">
@@ -33,7 +38,7 @@ const click = (nombre) => {
         <p>{{ personaje.descripcion }}</p>
       </li>
     </ul>
-  </div>
+  </div> -->
 </template>
 <style scoped>
 </style>

@@ -4,43 +4,31 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-console.log(route.params.detalleid)
+const personaje = ref(null);
 
-const personajes = [
-  {
-    id: 1,
-    nombre: 'Homero Simpson',
-    descripcion: 'Descripción del personaje 1',
-  },
-  {
-    id: 2,
-    nombre: 'Marge Simpson',
-    descripcion: 'Descripción del personaje 2',
-  },
-  {
-    id: 3,
-    nombre: 'Bart Simpson',
-    descripcion: 'Descripción del personaje 3',
-  },
-  {
-    id: 4,
-    nombre: 'Lisa Simpson',
-    descripcion: 'Descripción del personaje 3',
-  },
-]
-const personaje = ref({})
 onMounted(() => {
-  console.log('DetalleView montado')
-  personaje.value = personajes.find((p) => p.id == route.params.detalleid)
-  console.log("personaje", personaje)
-})
+  fetch('https://hp-api.onrender.com/api/characters')
+    .then((res) => res.json())
+    .then((characters) => {
 
-console.log("personaje fuera", personaje)
+      personaje.value = characters.find(
+        (char) => char.id === route.params.detalleid
+      );
+    });
+})
 
 </script>
 
 <template>
   <h1>Detalle del personaje {{ $route.params.detalleid }}</h1>
-  <p>{{ personaje }}</p>
+  <div v-if="personaje">
+    <p><strong>Nombre:</strong> {{ personaje.name }}</p>
+    <p><strong>Casa:</strong> {{ personaje.house }}</p>
+    <p><strong>Género:</strong> {{ personaje.gender }}</p>
+  </div>
+  <div v-else>
+    <p>Cargando personaje...</p>
+  </div>
 
+  <RouterLink to="/listado">Volver al listado</RouterLink>
 </template>
